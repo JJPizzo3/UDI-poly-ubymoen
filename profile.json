@@ -1,0 +1,316 @@
+{
+  "editors": [
+    {
+      "id": "onoff",
+      "ranges": [
+        {
+          "uom": "25",
+          "subset": "0,1",
+          "names": {
+            "0": "Off",
+            "1": "On"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shower_mode",
+      "ranges": [
+        {
+          "uom": "25",
+          "subset": "0,1,2,3,4",
+          "names": {
+            "0": "Off",
+            "1": "Heating",
+            "2": "Ready",
+            "3": "Paused",
+            "4": "Paused by Preset"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shower_temp",
+      "ranges": [
+        {
+          "uom": "17",
+          "min": 32,
+          "max": 130,
+          "step": 1,
+          "prec": 0
+        }
+      ]
+    },
+    {
+      "id": "shower_set_temp",
+      "ranges": [
+        {
+          "uom": "17",
+          "min": 60,
+          "max": 120,
+          "step": 1,
+          "prec": 0
+        }
+      ]
+    },
+    {
+      "id": "shower_preset",
+      "ranges": [
+        {
+          "uom": "25",
+          "subset": "0,1,2,3,4,5,6,7,8,9,10",
+          "names": {
+            "0": "None",
+            "1": "Preset 1",
+            "2": "Preset 2",
+            "3": "Preset 3",
+            "4": "Preset 4",
+            "5": "Preset 5",
+            "6": "Preset 6",
+            "7": "Preset 7",
+            "8": "Preset 8",
+            "9": "Preset 9",
+            "10": "Preset 10"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shower_preset_pick",
+      "ranges": [
+        {
+          "uom": "25",
+          "subset": "1,2,3,4,5,6,7,8,9,10",
+          "names": {
+            "1": "Preset 1",
+            "2": "Preset 2",
+            "3": "Preset 3",
+            "4": "Preset 4",
+            "5": "Preset 5",
+            "6": "Preset 6",
+            "7": "Preset 7",
+            "8": "Preset 8",
+            "9": "Preset 9",
+            "10": "Preset 10"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shower_timer",
+      "ranges": [
+        {
+          "uom": "58",
+          "min": 0,
+          "max": 86400,
+          "step": 1,
+          "prec": 0
+        }
+      ]
+    },
+    {
+      "id": "ED_CONTROLLER_ST",
+      "ranges": [
+        {
+          "subset": "0,1",
+          "uom": "25",
+          "names": {
+            "0": "Not Connected",
+            "1": "Connected"
+          }
+        }
+      ]
+    }
+  ],
+  "nodedefs": [
+    {
+      "id": "controller",
+      "name": "U by Moen",
+      "properties": [
+        {
+          "id": "ST",
+          "name": "Status",
+          "editor": "ED_CONTROLLER_ST"
+        }
+      ],
+      "cmds": {
+        "sends": [],
+        "accepts": [
+          {
+            "id": "DISCOVER",
+            "name": "Discover Showers",
+            "native": "false"
+          }
+        ]
+      },
+      "links": {
+        "ctl": [],
+        "rsp": []
+      }
+    },
+    {
+      "id": "shower",
+      "name": "U by Moen Shower",
+      "properties": [
+        {
+          "id": "ST",
+          "name": "Shower Power",
+          "editor": "onoff"
+        },
+        {
+          "id": "CLITEMP",
+          "name": "Current Temperature",
+          "editor": "shower_temp"
+        },
+        {
+          "id": "CLISPH",
+          "name": "Target Temperature",
+          "editor": "shower_temp"
+        },
+        {
+          "id": "MODE",
+          "name": "Mode",
+          "editor": "shower_mode"
+        },
+        {
+          "id": "PRESET",
+          "name": "Active Preset",
+          "editor": "shower_preset"
+        },
+        {
+          "id": "TIMEREM",
+          "name": "Time Remaining",
+          "editor": "shower_timer"
+        },
+        {
+          "id": "OUTLET1",
+          "name": "Outlet 1",
+          "editor": "onoff"
+        },
+        {
+          "id": "OUTLET2",
+          "name": "Outlet 2",
+          "editor": "onoff"
+        },
+        {
+          "id": "OUTLET3",
+          "name": "Outlet 3",
+          "editor": "onoff"
+        },
+        {
+          "id": "OUTLET4",
+          "name": "Outlet 4",
+          "editor": "onoff"
+        }
+      ],
+      "cmds": {
+        "sends": [],
+        "accepts": [
+          {
+            "id": "DON",
+            "name": "On",
+            "native": "true"
+          },
+          {
+            "id": "DOF",
+            "name": "Off",
+            "native": "true"
+          },
+          {
+            "id": "SET_TEMP",
+            "name": "Set Temperature",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "Temperature",
+                "editor": "shower_set_temp",
+                "optional": false,
+                "init": "CLISPH"
+              }
+            ]
+          },
+          {
+            "id": "START_PRESET",
+            "name": "Start Preset",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "Preset",
+                "editor": "shower_preset_pick",
+                "optional": false
+              }
+            ]
+          },
+          {
+            "id": "OUTLET1",
+            "name": "Outlet 1",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "State",
+                "editor": "onoff",
+                "optional": false,
+                "init": "OUTLET1"
+              }
+            ]
+          },
+          {
+            "id": "OUTLET2",
+            "name": "Outlet 2",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "State",
+                "editor": "onoff",
+                "optional": false,
+                "init": "OUTLET2"
+              }
+            ]
+          },
+          {
+            "id": "OUTLET3",
+            "name": "Outlet 3",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "State",
+                "editor": "onoff",
+                "optional": false,
+                "init": "OUTLET3"
+              }
+            ]
+          },
+          {
+            "id": "OUTLET4",
+            "name": "Outlet 4",
+            "native": "false",
+            "parameters": [
+              {
+                "id": "",
+                "name": "State",
+                "editor": "onoff",
+                "optional": false,
+                "init": "OUTLET4"
+              }
+            ]
+          },
+          {
+            "id": "QUERY",
+            "name": "Query",
+            "native": "true"
+          }
+        ]
+      },
+      "links": {
+        "ctl": [],
+        "rsp": []
+      }
+    }
+  ],
+  "linkdefs": []
+}

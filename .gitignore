@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+persist/
+data/
+.iox_env
+.pytest_cache/
+*.key
+*.cert
+*.crt
+*.pem
+*.lock
+*.pid
+*.log
+*.log.*
+logs/
+crash.log

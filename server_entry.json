@@ -1,0 +1,20 @@
+{
+  "name": "UByMoen",
+  "status": "active",
+  "developer": "jjp@pizzoware.com",
+  "author": "JJPizzo3",
+  "purchaseOptions": [],
+  "type": "python3",
+  "path": "/usr/home/eisy-ai/generated_plugins/u_by_moen",
+  "executable": "main.py",
+  "runAs": "admin",
+  "install": "install.sh",
+  "desc": "Control a U by Moen Smart Shower (Alexa/Android account) from eisy: on/off, temperature, presets and outlets.",
+  "customParams": "{\"email\": \"\", \"password\": \"\"}",
+  "discover": true,
+  "isyAccess": false,
+  "requireEisyui": false,
+  "shortPoll": 30,
+  "longPoll": 300,
+  "nsid": "2c696df7-d5d5-406d-84a2-b2dcd2e4f5c0"
+}

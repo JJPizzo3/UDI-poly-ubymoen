@@ -1,0 +1,357 @@
+{
+  "profile": {
+    "editors": [
+      {
+        "id": "onoff",
+        "ranges": [
+          {
+            "uom": "25",
+            "subset": "0,1",
+            "names": {
+              "0": "Off",
+              "1": "On"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shower_mode",
+        "ranges": [
+          {
+            "uom": "25",
+            "subset": "0,1,2,3,4",
+            "names": {
+              "0": "Off",
+              "1": "Heating",
+              "2": "Ready",
+              "3": "Paused",
+              "4": "Paused by Preset"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shower_temp",
+        "ranges": [
+          {
+            "uom": "17",
+            "min": 32,
+            "max": 130,
+            "step": 1,
+            "prec": 0
+          }
+        ]
+      },
+      {
+        "id": "shower_set_temp",
+        "ranges": [
+          {
+            "uom": "17",
+            "min": 60,
+            "max": 120,
+            "step": 1,
+            "prec": 0
+          }
+        ]
+      },
+      {
+        "id": "shower_preset",
+        "ranges": [
+          {
+            "uom": "25",
+            "subset": "0,1,2,3,4,5,6,7,8,9,10",
+            "names": {
+              "0": "None",
+              "1": "Preset 1",
+              "2": "Preset 2",
+              "3": "Preset 3",
+              "4": "Preset 4",
+              "5": "Preset 5",
+              "6": "Preset 6",
+              "7": "Preset 7",
+              "8": "Preset 8",
+              "9": "Preset 9",
+              "10": "Preset 10"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shower_preset_pick",
+        "ranges": [
+          {
+            "uom": "25",
+            "subset": "1,2,3,4,5,6,7,8,9,10",
+            "names": {
+              "1": "Preset 1",
+              "2": "Preset 2",
+              "3": "Preset 3",
+              "4": "Preset 4",
+              "5": "Preset 5",
+              "6": "Preset 6",
+              "7": "Preset 7",
+              "8": "Preset 8",
+              "9": "Preset 9",
+              "10": "Preset 10"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shower_timer",
+        "ranges": [
+          {
+            "uom": "58",
+            "min": 0,
+            "max": 86400,
+            "step": 1,
+            "prec": 0
+          }
+        ]
+      },
+      {
+        "id": "ED_CONTROLLER_ST",
+        "ranges": [
+          {
+            "subset": "0,1",
+            "uom": "25",
+            "names": {
+              "0": "Not Connected",
+              "1": "Connected"
+            }
+          }
+        ]
+      }
+    ],
+    "nodedefs": [
+      {
+        "id": "controller",
+        "name": "U by Moen",
+        "properties": [
+          {
+            "id": "ST",
+            "name": "Status",
+            "editor": "ED_CONTROLLER_ST"
+          }
+        ],
+        "cmds": {
+          "sends": [],
+          "accepts": [
+            {
+              "id": "DISCOVER",
+              "name": "Discover Showers",
+              "native": "false"
+            }
+          ]
+        },
+        "links": {
+          "ctl": [],
+          "rsp": []
+        }
+      },
+      {
+        "id": "shower",
+        "name": "U by Moen Shower",
+        "properties": [
+          {
+            "id": "ST",
+            "name": "Shower Power",
+            "editor": "onoff"
+          },
+          {
+            "id": "CLITEMP",
+            "name": "Current Temperature",
+            "editor": "shower_temp"
+          },
+          {
+            "id": "CLISPH",
+            "name": "Target Temperature",
+            "editor": "shower_temp"
+          },
+          {
+            "id": "MODE",
+            "name": "Mode",
+            "editor": "shower_mode"
+          },
+          {
+            "id": "PRESET",
+            "name": "Active Preset",
+            "editor": "shower_preset"
+          },
+          {
+            "id": "TIMEREM",
+            "name": "Time Remaining",
+            "editor": "shower_timer"
+          },
+          {
+            "id": "OUTLET1",
+            "name": "Outlet 1",
+            "editor": "onoff"
+          },
+          {
+            "id": "OUTLET2",
+            "name": "Outlet 2",
+            "editor": "onoff"
+          },
+          {
+            "id": "OUTLET3",
+            "name": "Outlet 3",
+            "editor": "onoff"
+          },
+          {
+            "id": "OUTLET4",
+            "name": "Outlet 4",
+            "editor": "onoff"
+          }
+        ],
+        "cmds": {
+          "sends": [],
+          "accepts": [
+            {
+              "id": "DON",
+              "name": "On",
+              "native": "true"
+            },
+            {
+              "id": "DOF",
+              "name": "Off",
+              "native": "true"
+            },
+            {
+              "id": "SET_TEMP",
+              "name": "Set Temperature",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "Temperature",
+                  "editor": "shower_set_temp",
+                  "optional": false,
+                  "init": "CLISPH"
+                }
+              ]
+            },
+            {
+              "id": "START_PRESET",
+              "name": "Start Preset",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "Preset",
+                  "editor": "shower_preset_pick",
+                  "optional": false
+                }
+              ]
+            },
+            {
+              "id": "OUTLET1",
+              "name": "Outlet 1",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "State",
+                  "editor": "onoff",
+                  "optional": false,
+                  "init": "OUTLET1"
+                }
+              ]
+            },
+            {
+              "id": "OUTLET2",
+              "name": "Outlet 2",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "State",
+                  "editor": "onoff",
+                  "optional": false,
+                  "init": "OUTLET2"
+                }
+              ]
+            },
+            {
+              "id": "OUTLET3",
+              "name": "Outlet 3",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "State",
+                  "editor": "onoff",
+                  "optional": false,
+                  "init": "OUTLET3"
+                }
+              ]
+            },
+            {
+              "id": "OUTLET4",
+              "name": "Outlet 4",
+              "native": "false",
+              "parameters": [
+                {
+                  "id": "",
+                  "name": "State",
+                  "editor": "onoff",
+                  "optional": false,
+                  "init": "OUTLET4"
+                }
+              ]
+            },
+            {
+              "id": "QUERY",
+              "name": "Query",
+              "native": "true"
+            }
+          ]
+        },
+        "links": {
+          "ctl": [],
+          "rsp": []
+        }
+      }
+    ],
+    "linkdefs": []
+  },
+  "server_entry": {
+    "name": "UByMoen",
+    "desc": "Control a U by Moen Smart Shower (Alexa/Android account) from eisy: on/off, temperature, presets and outlets.",
+    "type": "python3",
+    "discover": true,
+    "shortPoll": 30,
+    "longPoll": 300,
+    "isyAccess": false,
+    "requireEisyui": false,
+    "customParams": {
+      "email": "",
+      "password": ""
+    },
+    "extra_requirements": [
+      "requests>=2.31.0",
+      "websocket-client>=1.6.0"
+    ]
+  },
+  "readme_body": "# U by Moen (UByMoen)\n\neisy / IoX plugin for the **U by Moen Smart Shower** (Alexa / Android account).\n\n## Features\n* Shower **On / Off**\n* **Set temperature** (whole degrees Fahrenheit, 60 up to the shower's maximum, normally 115)\n* **Start a preset** -- the picker shows your preset names from the Moen app\n* **Toggle each outlet** (Outlet 1-4, in the order the shower reports them)\n* Status: power, mode (Off / Heating / Ready / Paused / Paused by Preset), current and target temperature, active preset, time remaining, outlet states\n* Live updates over the same Pusher WebSocket the Moen Android app uses, with REST polling as a fallback\n\n## Setup\n1. Install the plugin.\n2. Open its configuration page and enter your U by Moen **email** and **password**.\n3. Showers on the account are created as nodes automatically (or press **Discover Showers**).\n\n## Limitations\n* Unofficial: Moen has no published API. This follows the community project https://github.com/WeaveHubHQ/ha-u-by-moen (MIT) and may break if Moen changes its cloud.\n* Cloud only: the eisy needs internet access; there is no local-LAN control.\n* Alexa/Android accounts only; HomeKit-only systems are not supported.\n* The unit of \"Time Remaining\" reported by Moen is not documented; it is shown as received and treated as seconds.\n* Preset *creation/editing* is not supported -- manage presets in the Moen app.\n* Presets 3-10 are started by sending the full preset definition (as the Android app does); presets 1 and 2 use the controller's compact form.\n* Not affiliated with or endorsed by Moen or Fortune Brands.\n",
+  "override_bodies": {
+    "start": "    def start(self):\n        from udi_interface import LOGGER\n        import moen_shower\n        LOGGER.info('Starting U by Moen plugin')\n        self.moen_started = True\n        count = moen_shower.connect(self)\n        LOGGER.info('U by Moen: %d shower(s) set up', count)\n",
+    "stop": "    def stop(self):\n        from udi_interface import LOGGER\n        import moen_shower\n        LOGGER.info('Stopping U by Moen plugin')\n        moen_shower.shutdown(self)\n",
+    "discover": "    def discover(self, *args, **kwargs):\n        import moen_shower\n        moen_shower.connect(self)\n",
+    "parameterHandler": "    def parameterHandler(self, params):\n        import threading\n        import moen_shower\n        new = {}\n        try:\n            new['email'] = str((params or {}).get('email') or '').strip()\n            new['password'] = str((params or {}).get('password') or '')\n        except Exception:\n            new = {'email': '', 'password': ''}\n        old = getattr(self, 'moen_params', None)\n        self.moen_params = new\n        if getattr(self, 'moen_started', False) and old != new:\n            threading.Thread(target=moen_shower.connect, args=(self,), daemon=True).start()\n",
+    "shortPoll": "    def shortPoll(self, *args, **kwargs):\n        import moen_shower\n        moen_shower.refresh_all(self, False)\n",
+    "longPoll": "    def longPoll(self, *args, **kwargs):\n        import moen_shower\n        nodes = getattr(self, 'moen_nodes', None)\n        if not nodes:\n            if getattr(self, 'moen_started', False) and not getattr(self, 'moen_auth_failed', False):\n                moen_shower.connect(self)\n            return\n        moen_shower.refresh_all(self, True)\n"
+  },
+  "node_classes": {
+    "moen_client": "\"\"\"Minimal U by Moen cloud client (REST + Pusher) used by the UByMoen plugin.\n\nMoen publishes no official API. Endpoints and message shapes follow the\nMIT-licensed community project https://github.com/WeaveHubHQ/ha-u-by-moen\n(Jason Lazerus). Credentials and tokens are never logged.\n\nImplementation note: this file deliberately contains no ``class`` statements.\nThe plugin scaffold treats every class in a node-class file as a device node,\nso the helper classes (exceptions, MoenClient, _PusherConn) are assembled with\n``type()`` from the plain functions registered below. Behaviour is the same as\nordinary classes.\n\"\"\"\nimport json\nimport logging\nimport random\nimport threading\nimport time\n\nimport requests\nimport websocket\n\ntry:\n    from udi_interface import LOGGER\nexcept Exception:  # pragma: no cover - tests run without udi_interface logging\n    LOGGER = logging.getLogger(\"ubymoen\")\n\nAPI_BASE = \"https://www.moen-iot.com\"\nHTTP_TIMEOUT = 15\nMIN_TEMP_F = 60\nDEFAULT_MAX_TEMP_F = 115\n\nMODE_INDEX = {\"off\": 0, \"adjusting\": 1, \"ready\": 2, \"pause\": 3, \"paused-by-preset\": 4}\nPOWER_ON_MODES = (\"adjusting\", \"ready\", \"pause\")\n\nVOLATILE_FIELDS = frozenset(\n    {\n        \"mode\",\n        \"current_temperature\",\n        \"target_temperature\",\n        \"outlets\",\n        \"active_preset\",\n        \"timer_enabled\",\n        \"time_remaining\",\n    }\n)\nREST_STATE_KEYS = (\n    \"mode\",\n    \"current_temperature\",\n    \"target_temperature\",\n    \"max_temp\",\n    \"outlets\",\n    \"active_preset\",\n    \"presets\",\n    \"time_remaining\",\n    \"timer_enabled\",\n    \"timer_length\",\n    \"name\",\n    \"current_firmware_version\",\n)\n\n# Exceptions (built with type(); see module docstring)\nMoenError = type(\"MoenError\", (Exception,), {\"__doc__\": \"Any U by Moen API / transport / command problem.\"})\nMoenAuthError = type(\"MoenAuthError\", (MoenError,), {\"__doc__\": \"Login was rejected.\"})\nMoenHttpError = type(\"MoenHttpError\", (MoenError,), {\"__doc__\": \"HTTP error status from the Moen API.\", \"status\": 0})\n\n\ndef _http_error(method, path, status):\n    err = MoenHttpError(\"U by Moen %s %s returned HTTP %d\" % (method.upper(), path, status))\n    err.status = status\n    return err\n\n\n# ---------------------------------------------------------------- helpers\n\ndef mode_to_index(mode):\n    return MODE_INDEX.get(mode)\n\n\ndef is_powered_on(mode):\n    return mode in POWER_ON_MODES\n\n\ndef control_payload(action, params=None):\n    data = {\"action\": action}\n    if params is not None:\n        data[\"params\"] = params\n    return {\"type\": \"control\", \"data\": data}\n\n\ndef power_payload(turn_on):\n    if turn_on:\n        return control_payload(\"shower_on\", {})\n    return control_payload(\"shower_off\")\n\n\ndef temperature_payload(temperature, minimum, maximum):\n    if isinstance(temperature, bool) or not isinstance(temperature, (int, float)):\n        raise MoenError(\"Temperature must be numeric\")\n    if not (temperature == temperature) or not minimum <= temperature <= maximum:\n        raise MoenError(\"Temperature must be between %g and %g\" % (minimum, maximum))\n    target = int(round(temperature))\n    return control_payload(\"temperature_set\", {\"target_temperature\": target}), target\n\n\ndef outlet_payload(outlets, position, active):\n    if not outlets or any(\n        not isinstance(o, dict)\n        or not isinstance(o.get(\"position\"), int)\n        or not isinstance(o.get(\"active\"), bool)\n        for o in outlets\n    ):\n        raise MoenError(\"Current outlet state is incomplete\")\n    found = False\n    updated = []\n    for outlet in outlets:\n        item = dict(outlet)\n        if item[\"position\"] == position:\n            item[\"active\"] = active\n            found = True\n        updated.append(item)\n    if not found:\n        raise MoenError(\"Outlet %s is not available\" % position)\n    return control_payload(\"outlets_set\", {\"outlets\": updated}), updated\n\n\ndef preset_payload(presets, position):\n    preset = next((p for p in presets if isinstance(p, dict) and p.get(\"position\") == position), None)\n    if preset is None:\n        raise MoenError(\"Preset %s is not available\" % position)\n    if position <= 2:\n        return control_payload(\"shower_on\", {\"preset\": position}), dict(preset)\n    return control_payload(\"shower_set\", dict(preset)), dict(preset)\n\n\ndef _decode(value):\n    if isinstance(value, str):\n        try:\n            return json.loads(value)\n        except ValueError:\n            return value\n    return value\n\n\ndef parse_state_event(payload):\n    \"\"\"Normalize a client-state-reported payload -> (event_type, update dict).\"\"\"\n    envelope = _decode(payload)\n    if not isinstance(envelope, dict):\n        return None, {}\n    event_type = envelope.get(\"type\")\n    body = _decode(envelope.get(\"data\", {}))\n    if not isinstance(body, dict):\n        body = {}\n    aliases = {\n        \"current_mode\": \"mode\",\n        \"current_temperature\": \"current_temperature\",\n        \"target_temperature\": \"target_temperature\",\n        \"outlets\": \"outlets\",\n        \"active_preset\": \"active_preset\",\n        \"timer_enabled\": \"timer_enabled\",\n        \"time_remaining\": \"time_remaining\",\n        \"presets\": \"presets\",\n        \"timer_length\": \"timer_length\",\n    }\n    update = {}\n    for source, target in aliases.items():\n        if source in body:\n            update[target] = body[source]\n    if \"current_firmware_version\" in envelope:\n        update[\"current_firmware_version\"] = envelope[\"current_firmware_version\"]\n    return (event_type if isinstance(event_type, str) else None), update\n\n\ndef merge_state(existing, update):\n    \"\"\"Merge a partial update, keeping per-outlet metadata.\"\"\"\n    merged = dict(existing)\n    for key, value in update.items():\n        if key == \"outlets\" and isinstance(value, list):\n            by_pos = {\n                o.get(\"position\"): dict(o)\n                for o in existing.get(\"outlets\", [])\n                if isinstance(o, dict) and o.get(\"position\") is not None\n            }\n            result = []\n            for item in value:\n                if not isinstance(item, dict):\n                    continue\n                combined = dict(by_pos.get(item.get(\"position\"), {}))\n                combined.update(item)\n                result.append(combined)\n            merged[key] = result\n        else:\n            merged[key] = value\n    return merged\n\n\ndef rest_to_state(details):\n    return {k: details[k] for k in REST_STATE_KEYS if k in details}\n\n\n# ------------------------------------------------- method registries\n\ndef _registry(store):\n    def decorator(func):\n        store[func.__name__] = func\n        return func\n    return decorator\n\n\n_CLIENT_METHODS = {\"__doc__\": \"REST login/discovery plus live Pusher control for the account's showers.\"}\n_CONN_METHODS = {\"__doc__\": \"One supervised Pusher WebSocket (runs in its own daemon thread).\"}\n_client_method = _registry(_CLIENT_METHODS)\n_conn_method = _registry(_CONN_METHODS)\n\n\n# ---------------------------------------------------------- MoenClient\n\n@_client_method\ndef __init__(self, email, password, state_callback):\n    self._email = email\n    self._password = password\n    self._state_cb = state_callback\n    self._token = None\n    self._lock = threading.RLock()\n    self._http = requests.Session()\n    self._conns = {}\n    self._serial_conn = {}\n\n\n@_client_method\ndef authenticate(self):\n    with self._lock:\n        try:\n            resp = self._http.get(\n                API_BASE + \"/v2/authenticate\",\n                params={\"email\": self._email, \"password\": self._password},\n                timeout=HTTP_TIMEOUT,\n            )\n        except requests.RequestException as err:\n            raise MoenError(\"Authentication request failed (%s)\" % type(err).__name__) from None\n        if resp.status_code in (401, 403):\n            raise MoenAuthError(\"Invalid U by Moen credentials\")\n        if resp.status_code >= 400:\n            raise MoenError(\"Authentication returned HTTP %d\" % resp.status_code)\n        try:\n            data = resp.json()\n        except ValueError:\n            raise MoenError(\"Authentication response was not JSON\") from None\n        token = data.get(\"token\") if isinstance(data, dict) else None\n        if not isinstance(token, str) or not token:\n            raise MoenAuthError(\"Authentication response did not contain a token\")\n        self._token = token\n        return token\n\n\n@_client_method\ndef _ensure_token(self):\n    with self._lock:\n        if self._token is None:\n            return self.authenticate()\n        return self._token\n\n\n@_client_method\ndef _request(self, method, path, headers=None, params=None, data=None,\n             user_token_header=True, retry_auth=True, allow_empty=False):\n    token = self._ensure_token()\n    hdrs = dict(headers or {})\n    if user_token_header and \"User-Token\" not in hdrs:\n        hdrs[\"User-Token\"] = token\n    try:\n        resp = self._http.request(\n            method, API_BASE + path, headers=hdrs, params=params, data=data,\n            timeout=HTTP_TIMEOUT,\n        )\n    except requests.RequestException as err:\n        raise MoenError(\"U by Moen %s %s failed (%s)\" % (method.upper(), path, type(err).__name__)) from None\n    if resp.status_code == 401 and retry_auth:\n        with self._lock:\n            self._token = None\n        fresh = self.authenticate()\n        new_params = dict(params) if params is not None else None\n        new_data = dict(data) if data is not None else None\n        if new_params is not None and \"user_token\" in new_params:\n            new_params[\"user_token\"] = fresh\n        if new_data is not None and \"user_token\" in new_data:\n            new_data[\"user_token\"] = fresh\n        return self._request(method, path, headers=headers, params=new_params, data=new_data,\n                             user_token_header=user_token_header, retry_auth=False,\n                             allow_empty=allow_empty)\n    if resp.status_code in (401, 403):\n        raise MoenAuthError(\"U by Moen %s %s was not authorized\" % (method.upper(), path))\n    if resp.status_code >= 400:\n        raise _http_error(method, path, resp.status_code)\n    if resp.status_code == 204 or allow_empty or not resp.content:\n        return None\n    try:\n        return resp.json()\n    except ValueError:\n        raise MoenError(\"U by Moen %s %s returned invalid JSON\" % (method.upper(), path)) from None\n\n\n@_client_method\ndef get_devices(self):\n    devices = self._request(\"GET\", \"/v2/showers\")\n    if not isinstance(devices, list):\n        raise MoenError(\"Showers response was not a list\")\n    return devices\n\n\n@_client_method\ndef get_details(self, serial):\n    details = self._request(\"GET\", \"/v5/showers/%s\" % serial)\n    if not isinstance(details, dict):\n        raise MoenError(\"Shower detail response was not an object\")\n    return details\n\n\n@_client_method\ndef _get_pusher_credentials(self, serial):\n    token = self._ensure_token()\n    try:\n        creds = self._request(\n            \"GET\", \"/v2/credentials\", user_token_header=False,\n            params={\"user_token\": token, \"serial_number\": serial},\n        )\n        version = 2\n    except MoenHttpError as err:\n        if err.status not in (404, 405):\n            raise MoenError(\"Failed to get Pusher credentials\") from None\n        creds = self._request(\"GET\", \"/v3/credentials\")\n        version = 3\n    if not isinstance(creds, dict) or not creds.get(\"app_key\") or not creds.get(\"cluster\"):\n        raise MoenError(\"Pusher credentials were incomplete\")\n    out = dict(creds)\n    out[\"auth_version\"] = version\n    return out\n\n\n@_client_method\ndef get_pusher_auth(self, channel, socket_id, serial, auth_version):\n    token = self._ensure_token()\n    form = {\"channel_name\": channel, \"socket_id\": socket_id}\n    headers = {\"Content-Type\": \"application/x-www-form-urlencoded\"}\n    if auth_version == 2:\n        form[\"user_token\"] = token\n        form[\"serial_number\"] = serial\n        result = self._request(\"POST\", \"/v2/pusher-auth\", headers=headers, data=form,\n                               user_token_header=False)\n    else:\n        result = self._request(\"POST\", \"/v3/pusher-auth\", headers=headers, data=form)\n    auth = result.get(\"auth\") if isinstance(result, dict) else None\n    if not isinstance(auth, str) or not auth:\n        raise MoenError(\"Pusher authorization response was incomplete\")\n    return auth\n\n\n@_client_method\ndef _ensure_mobile_capability(self, details):\n    caps = {c.get(\"name\") for c in details.get(\"capabilities\", []) if isinstance(c, dict)}\n    if \"pusher_hmi\" not in caps or \"mobile_supports_pusher\" in caps:\n        return\n    shower_token = details.get(\"token\")\n    if not shower_token:\n        return\n    try:\n        self._request(\n            \"POST\", \"/v2/capabilities\", headers={\"Shower-Token\": shower_token},\n            params={\"name\": \"mobile_supports_pusher\"}, user_token_header=False,\n            allow_empty=True,\n        )\n    except MoenError as err:\n        LOGGER.debug(\"Could not register mobile Pusher capability: %s\", err)\n\n\n@_client_method\ndef register_device(self, details):\n    serial = details.get(\"serial_number\")\n    if not serial:\n        raise MoenError(\"Device detail omitted serial_number\")\n    self._ensure_mobile_capability(details)\n    creds = self._get_pusher_credentials(serial)\n    channel_id = creds.get(\"channel\") or details.get(\"channel\")\n    if not channel_id:\n        raise MoenError(\"Pusher credentials omitted channel\")\n    channel = str(channel_id)\n    if not channel.startswith(\"private-\"):\n        channel = \"private-\" + channel\n    key = (str(creds[\"app_key\"]), str(creds[\"cluster\"]))\n    with self._lock:\n        conn = self._conns.get(key)\n        if conn is None:\n            conn = _PusherConn(self, key[0], key[1])\n            self._conns[key] = conn\n        conn.add_sub(serial, channel, int(creds.get(\"auth_version\", 3)))\n        self._serial_conn[serial] = conn\n\n\n@_client_method\ndef start_pusher(self):\n    for conn in list(self._conns.values()):\n        conn.start()\n\n\n@_client_method\ndef stop(self):\n    for conn in list(self._conns.values()):\n        conn.stop()\n    self._conns = {}\n    self._serial_conn = {}\n    try:\n        self._http.close()\n    except Exception:\n        pass\n\n\n@_client_method\ndef is_healthy(self, serial):\n    conn = self._serial_conn.get(serial)\n    return conn is not None and conn.is_healthy(serial)\n\n\n@_client_method\ndef request_report(self, serial):\n    conn = self._serial_conn.get(serial)\n    if conn is None:\n        raise MoenError(\"No Pusher connection for %s\" % serial)\n    conn.request_report(serial)\n\n\n@_client_method\ndef send_control(self, serial, payload):\n    conn = self._serial_conn.get(serial)\n    if conn is None:\n        raise MoenError(\"No Pusher connection for %s\" % serial)\n    conn.send_event(serial, \"client-state-desired\", payload)\n\n\n@_client_method\ndef _on_event(self, serial, event, payload):\n    if event != \"client-state-reported\":\n        return\n    event_type, update = parse_state_event(payload)\n    if event_type == \"boot\":\n        try:\n            self.request_report(serial)\n        except MoenError as err:\n            LOGGER.debug(\"Could not request report after boot: %s\", err)\n        return\n    if event_type in (\"state_change\", \"shower_report\") and update:\n        try:\n            self._state_cb(serial, update)\n        except Exception as err:  # keep the transport thread alive\n            LOGGER.error(\"State callback failed: %s\", err)\n\n\n# --------------------------------------------------------- _PusherConn\n\n@_conn_method\ndef __init__(self, client, app_key, cluster):\n    self.client = client\n    self.app_key = app_key\n    self.cluster = cluster\n    self.subs = {}\n    self.ws = None\n    self.socket_id = None\n    self.thread = None\n    self.running = False\n    self.send_lock = threading.Lock()\n    self.report_id = 0\n\n\n@_conn_method\ndef add_sub(self, serial, channel, auth_version):\n    self.subs[channel] = {\n        \"serial\": serial,\n        \"channel\": channel,\n        \"auth_version\": auth_version,\n        \"ready\": threading.Event(),\n    }\n\n\n@_conn_method\ndef is_healthy(self, serial):\n    return any(s[\"serial\"] == serial and s[\"ready\"].is_set() for s in self.subs.values())\n\n\n@_conn_method\ndef start(self):\n    if self.thread is not None and self.thread.is_alive():\n        return\n    self.running = True\n    self.thread = threading.Thread(target=self._supervise, name=\"moen-pusher\", daemon=True)\n    self.thread.start()\n\n\n@_conn_method\ndef stop(self):\n    self.running = False\n    ws = self.ws\n    if ws is not None:\n        try:\n            ws.close()\n        except Exception:\n            pass\n    th = self.thread\n    if th is not None and th is not threading.current_thread():\n        th.join(5)\n    self.thread = None\n    self._mark_disconnected()\n\n\n@_conn_method\ndef _mark_disconnected(self):\n    self.socket_id = None\n    for sub in self.subs.values():\n        sub[\"ready\"].clear()\n\n\n@_conn_method\ndef _supervise(self):\n    attempt = 0\n    while self.running:\n        established = False\n        try:\n            self._run_connection()\n        except Exception as err:\n            if self.running:\n                LOGGER.warning(\"Pusher connection lost: %s\", type(err).__name__)\n        finally:\n            established = self.socket_id is not None\n            self._mark_disconnected()\n            ws = self.ws\n            self.ws = None\n            if ws is not None:\n                try:\n                    ws.close()\n                except Exception:\n                    pass\n        if not self.running:\n            break\n        attempt = 1 if established else attempt + 1\n        delay = min(30.0, float(attempt * attempt)) + random.uniform(0, 1)\n        end = time.time() + delay\n        while self.running and time.time() < end:\n            time.sleep(0.5)\n\n\n@_conn_method\ndef _run_connection(self):\n    url = \"wss://ws-%s.pusher.com/app/%s?protocol=7&client=python-client&version=1.0\" % (\n        self.cluster, self.app_key)\n    ws = websocket.create_connection(url, timeout=10)\n    self.ws = ws\n    activity_timeout = 120.0\n    last_activity = time.monotonic()\n    ping_sent = None\n    while self.running:\n        if ping_sent is None:\n            wait = activity_timeout - (time.monotonic() - last_activity)\n        else:\n            wait = 30.0 - (time.monotonic() - ping_sent)\n        if wait <= 0:\n            if ping_sent is not None:\n                raise MoenError(\"Timed out waiting for Pusher pong\")\n            self._send({\"event\": \"pusher:ping\"})\n            ping_sent = time.monotonic()\n            continue\n        ws.settimeout(max(0.5, min(wait, 5.0)))\n        try:\n            raw = ws.recv()\n        except websocket.WebSocketTimeoutException:\n            continue\n        if not raw:\n            raise MoenError(\"Pusher WebSocket closed\")\n        last_activity = time.monotonic()\n        ping_sent = None\n        negotiated = self._handle(raw)\n        if negotiated:\n            activity_timeout = negotiated\n\n\n@_conn_method\ndef _handle(self, raw):\n    try:\n        msg = json.loads(raw)\n    except (TypeError, ValueError):\n        return None\n    if not isinstance(msg, dict):\n        return None\n    event = msg.get(\"event\")\n    data = msg.get(\"data\")\n    if event == \"pusher:connection_established\":\n        info = _decode(data)\n        if not isinstance(info, dict) or not info.get(\"socket_id\"):\n            raise MoenError(\"Pusher connection omitted socket_id\")\n        self.socket_id = str(info[\"socket_id\"])\n        for sub in list(self.subs.values()):\n            self._subscribe(sub)\n        timeout = info.get(\"activity_timeout\")\n        if isinstance(timeout, (int, float)) and not isinstance(timeout, bool):\n            return max(1.0, float(timeout))\n    elif event == \"pusher:ping\":\n        self._send({\"event\": \"pusher:pong\"})\n    elif event == \"pusher:error\":\n        raise MoenError(\"Pusher returned an error\")\n    elif event == \"pusher_internal:subscription_succeeded\":\n        sub = self.subs.get(msg.get(\"channel\"))\n        if sub is not None:\n            sub[\"ready\"].set()\n            LOGGER.info(\"Subscribed to live U by Moen updates for %s\", sub[\"serial\"])\n            self.request_report(sub[\"serial\"])\n    elif isinstance(event, str):\n        sub = self.subs.get(msg.get(\"channel\"))\n        if sub is not None:\n            self.client._on_event(sub[\"serial\"], event, _decode(data))\n    return None\n\n\n@_conn_method\ndef _subscribe(self, sub):\n    if self.socket_id is None:\n        raise MoenError(\"Pusher socket is not established\")\n    auth = self.client.get_pusher_auth(\n        sub[\"channel\"], self.socket_id, sub[\"serial\"], sub[\"auth_version\"])\n    self._send({\"event\": \"pusher:subscribe\", \"data\": {\"channel\": sub[\"channel\"], \"auth\": auth}})\n\n\n@_conn_method\ndef _send(self, message):\n    ws = self.ws\n    if ws is None:\n        raise MoenError(\"Pusher WebSocket is disconnected\")\n    with self.send_lock:\n        try:\n            ws.send(json.dumps(message, separators=(\",\", \":\")))\n        except (websocket.WebSocketException, OSError) as err:\n            raise MoenError(\"Pusher send failed (%s)\" % type(err).__name__) from None\n\n\n@_conn_method\ndef _find(self, serial):\n    for sub in self.subs.values():\n        if sub[\"serial\"] == serial:\n            return sub\n    raise MoenError(\"No Pusher channel for %s\" % serial)\n\n\n@_conn_method\ndef request_report(self, serial):\n    sub = self._find(serial)\n    if not sub[\"ready\"].is_set():\n        raise MoenError(\"Pusher channel is not subscribed\")\n    self.report_id = (self.report_id + 1) % 1000\n    payload = {\"jsonrpc\": \"2.0\", \"method\": \"do_shower_report\", \"id\": self.report_id}\n    self._send({\n        \"event\": \"client-command\",\n        \"channel\": sub[\"channel\"],\n        \"data\": json.dumps(payload, separators=(\",\", \":\")),\n    })\n\n\n@_conn_method\ndef send_event(self, serial, event, payload, timeout=10.0):\n    sub = self._find(serial)\n    if not sub[\"ready\"].wait(timeout):\n        raise MoenError(\"Pusher channel did not become ready\")\n    self._send({\n        \"event\": event,\n        \"channel\": sub[\"channel\"],\n        \"data\": json.dumps(payload, separators=(\",\", \":\")),\n    })\n\n\nMoenClient = type(\"MoenClient\", (), dict(_CLIENT_METHODS))\n_PusherConn = type(\"_PusherConn\", (), dict(_CONN_METHODS))\n",
+    "moen_shower": "\"\"\"Shower node and connection orchestration for the UByMoen plugin.\"\"\"\nimport threading\n\nimport udi_interface\n\nfrom moen_client import (\n    DEFAULT_MAX_TEMP_F,\n    MIN_TEMP_F,\n    VOLATILE_FIELDS,\n    MoenAuthError,\n    MoenClient,\n    MoenError,\n    is_powered_on,\n    merge_state,\n    mode_to_index,\n    outlet_payload,\n    power_payload,\n    preset_payload,\n    rest_to_state,\n    temperature_payload,\n)\n\nNode = udi_interface.Node\nLOGGER = udi_interface.LOGGER\n\nMAX_PRESET_POSITION = 10\n\n\nclass ShowerNode(Node):\n    id = \"shower\"\n    drivers = [\n        {'driver': 'ST', 'value': 0, 'uom': 25, 'name': 'Shower Power'},\n        {'driver': 'CLITEMP', 'value': 0, 'uom': 17, 'name': 'Current Temperature'},\n        {'driver': 'CLISPH', 'value': 0, 'uom': 17, 'name': 'Target Temperature'},\n        {'driver': 'MODE', 'value': 0, 'uom': 25, 'name': 'Mode'},\n        {'driver': 'PRESET', 'value': 0, 'uom': 25, 'name': 'Active Preset'},\n        {'driver': 'TIMEREM', 'value': 0, 'uom': 58, 'name': 'Time Remaining'},\n        {'driver': 'OUTLET1', 'value': 0, 'uom': 25, 'name': 'Outlet 1'},\n        {'driver': 'OUTLET2', 'value': 0, 'uom': 25, 'name': 'Outlet 2'},\n        {'driver': 'OUTLET3', 'value': 0, 'uom': 25, 'name': 'Outlet 3'},\n        {'driver': 'OUTLET4', 'value': 0, 'uom': 25, 'name': 'Outlet 4'},\n    ]\n\n    def __init__(self, polyglot, primary, address, name, serial, moen):\n        super().__init__(polyglot, primary, address, name)\n        self.moen_serial = serial\n        self.moen = moen\n        self.shower_state = {}\n        self._state_lock = threading.RLock()\n        self._preset_sig = None\n\n    # ------------------------------------------------------------ state\n    def apply_state(self, update):\n        if not update:\n            return\n        with self._state_lock:\n            self.shower_state = merge_state(self.shower_state, update)\n            snapshot = dict(self.shower_state)\n        try:\n            self._publish(snapshot)\n        except Exception as err:\n            LOGGER.error('Could not publish shower state: %s', err)\n\n    @staticmethod\n    def _sorted_outlets(state):\n        outlets = state.get('outlets')\n        if not isinstance(outlets, list):\n            return []\n        good = [o for o in outlets if isinstance(o, dict) and isinstance(o.get('position'), int)]\n        return sorted(good, key=lambda o: o['position'])\n\n    def _set_temp(self, driver, value):\n        if isinstance(value, (int, float)) and not isinstance(value, bool):\n            self.setDriver(driver, int(round(value)))\n\n    def _set_preset_driver(self, position, title):\n        try:\n            self.setDriver('PRESET', position, text=title)\n        except TypeError:\n            self.setDriver('PRESET', position)\n\n    def _publish(self, st):\n        mode = st.get('mode')\n        index = mode_to_index(mode)\n        if index is not None:\n            self.setDriver('MODE', index)\n            self.setDriver('ST', 1 if is_powered_on(mode) else 0)\n        elif mode is not None:\n            LOGGER.warning('Unknown shower mode %r', mode)\n        self._set_temp('CLITEMP', st.get('current_temperature'))\n        self._set_temp('CLISPH', st.get('target_temperature'))\n\n        presets = st.get('presets')\n        if isinstance(presets, list):\n            self._update_preset_editors(presets)\n        active = st.get('active_preset')\n        position = active if isinstance(active, int) and not isinstance(active, bool) else 0\n        title = 'None'\n        if position and isinstance(presets, list):\n            match = next((p for p in presets if isinstance(p, dict) and p.get('position') == position), None)\n            title = str((match or {}).get('title') or 'Preset %d' % position)\n        self._set_preset_driver(position, title)\n\n        remaining = st.get('time_remaining')\n        if isinstance(remaining, (int, float)) and not isinstance(remaining, bool):\n            self.setDriver('TIMEREM', int(remaining))\n        elif 'time_remaining' in st and remaining is None:\n            self.setDriver('TIMEREM', 0)\n\n        for i, outlet in enumerate(self._sorted_outlets(st)[:4]):\n            self.setDriver('OUTLET%d' % (i + 1), 1 if outlet.get('active') else 0)\n\n    def _update_preset_editors(self, presets):\n        names = {}\n        for item in presets:\n            if not isinstance(item, dict):\n                continue\n            pos = item.get('position')\n            if isinstance(pos, int) and 1 <= pos <= MAX_PRESET_POSITION:\n                names[pos] = str(item.get('title') or 'Preset %d' % pos)\n        if not names:\n            return\n        signature = tuple(sorted(names.items()))\n        if signature == self._preset_sig:\n            return\n        self._preset_sig = signature\n        positions = sorted(names)\n        pick_subset = ','.join(str(p) for p in positions)\n        status_names = {'0': 'None'}\n        status_names.update({str(p): names[p] for p in positions})\n        editors = [\n            {'id': 'shower_preset', 'ranges': [\n                {'uom': '25', 'subset': '0,' + pick_subset, 'names': status_names}]},\n            {'id': 'shower_preset_pick', 'ranges': [\n                {'uom': '25', 'subset': pick_subset,\n                 'names': {str(p): names[p] for p in positions}}]},\n        ]\n        threading.Thread(target=self._push_profile, args=(editors,), daemon=True).start()\n\n    def _push_profile(self, editors):\n        try:\n            self.poly.updateJsonProfile({'editors': editors}, {'waitResponse': True})\n        except Exception as err:\n            LOGGER.warning('Could not update preset names: %s', err)\n\n    # --------------------------------------------------------- commands\n    @staticmethod\n    def _command_value(command):\n        if isinstance(command, dict):\n            value = command.get('value')\n            if value is None and isinstance(command.get('query'), dict):\n                for candidate in command['query'].values():\n                    return candidate\n            return value\n        return command\n\n    @staticmethod\n    def _parse_bool(value):\n        text = str(value).strip().lower()\n        if text in ('1', '1.0', 'true', 'on', '100'):\n            return True\n        if text in ('0', '0.0', 'false', 'off'):\n            return False\n        return None\n\n    def _request_report_later(self):\n        try:\n            self.moen.request_report(self.moen_serial)\n        except MoenError as err:\n            LOGGER.debug('Report request failed: %s', err)\n\n    def _send(self, payload, optimistic=None):\n        try:\n            self.moen.send_control(self.moen_serial, payload)\n        except MoenError as err:\n            LOGGER.error('Shower command failed: %s', err)\n            return False\n        if optimistic:\n            self.apply_state(optimistic)\n        timer = threading.Timer(3.0, self._request_report_later)\n        timer.daemon = True\n        timer.start()\n        return True\n\n    def shower_on(self, command=None, *args, **kwargs):\n        self._send(power_payload(True), {'mode': 'adjusting'})\n\n    def shower_off(self, command=None, *args, **kwargs):\n        self._send(power_payload(False), {'mode': 'off'})\n\n    def set_temp(self, command=None, *args, **kwargs):\n        try:\n            temperature = float(self._command_value(command))\n        except (TypeError, ValueError):\n            LOGGER.error('Set Temperature needs a numeric value')\n            return\n        with self._state_lock:\n            max_temp = self.shower_state.get('max_temp')\n        try:\n            maximum = float(max_temp) if max_temp else float(DEFAULT_MAX_TEMP_F)\n        except (TypeError, ValueError):\n            maximum = float(DEFAULT_MAX_TEMP_F)\n        try:\n            payload, target = temperature_payload(temperature, MIN_TEMP_F, maximum)\n        except MoenError as err:\n            LOGGER.error('Set Temperature rejected: %s', err)\n            return\n        self._send(payload, {'target_temperature': target})\n\n    def start_preset(self, command=None, *args, **kwargs):\n        try:\n            position = int(float(self._command_value(command)))\n        except (TypeError, ValueError):\n            LOGGER.error('Start Preset needs a preset number')\n            return\n        with self._state_lock:\n            presets = list(self.shower_state.get('presets') or [])\n        try:\n            payload, preset = preset_payload(presets, position)\n        except MoenError as err:\n            LOGGER.error('Start Preset rejected: %s', err)\n            return\n        optimistic = {'active_preset': position, 'mode': 'adjusting'}\n        if isinstance(preset.get('target_temperature'), (int, float)):\n            optimistic['target_temperature'] = preset['target_temperature']\n        self._send(payload, optimistic)\n\n    def _set_outlet(self, command, index):\n        active = self._parse_bool(self._command_value(command))\n        if active is None:\n            LOGGER.error('Outlet %d needs an On/Off value', index + 1)\n            return\n        with self._state_lock:\n            snapshot = dict(self.shower_state)\n        sorted_outlets = self._sorted_outlets(snapshot)\n        if index >= len(sorted_outlets):\n            LOGGER.error('Outlet %d is not available on this shower', index + 1)\n            return\n        position = sorted_outlets[index]['position']\n        try:\n            payload, updated = outlet_payload(snapshot.get('outlets') or [], position, active)\n        except MoenError as err:\n            LOGGER.error('Outlet %d rejected: %s', index + 1, err)\n            return\n        self._send(payload, {'outlets': updated})\n\n    def outlet1(self, command=None, *args, **kwargs):\n        self._set_outlet(command, 0)\n\n    def outlet2(self, command=None, *args, **kwargs):\n        self._set_outlet(command, 1)\n\n    def outlet3(self, command=None, *args, **kwargs):\n        self._set_outlet(command, 2)\n\n    def outlet4(self, command=None, *args, **kwargs):\n        self._set_outlet(command, 3)\n\n    def query_cmd(self, command=None, *args, **kwargs):\n        self._request_report_later()\n        self.reportDrivers()\n\n    commands = {\n        'DON': shower_on,\n        'DOF': shower_off,\n        'SET_TEMP': set_temp,\n        'START_PRESET': start_preset,\n        'OUTLET1': outlet1,\n        'OUTLET2': outlet2,\n        'OUTLET3': outlet3,\n        'OUTLET4': outlet4,\n        'QUERY': query_cmd,\n    }\n\n\n# ------------------------------------------------- connection management\n\n_CONNECT_LOCK = threading.RLock()\n\n\ndef _notice(ctrl, key, text=None):\n    try:\n        if text:\n            ctrl.poly.Notices[key] = text\n        else:\n            ctrl.poly.Notices.delete(key)\n    except Exception:\n        pass\n\n\ndef shutdown(ctrl):\n    client = getattr(ctrl, 'moen', None)\n    ctrl.moen = None\n    ctrl.moen_nodes = {}\n    if client is not None:\n        try:\n            client.stop()\n        except Exception as err:\n            LOGGER.debug('Error stopping Moen client: %s', err)\n\n\ndef connect(ctrl):\n    \"\"\"(Re)connect to the Moen cloud and (re)create shower nodes. Returns node count.\"\"\"\n    with _CONNECT_LOCK:\n        ctrl.moen_auth_failed = False\n        params = getattr(ctrl, 'moen_params', None) or {}\n        email = str(params.get('email') or '').strip()\n        password = str(params.get('password') or '')\n        if not email or not password:\n            _notice(ctrl, 'moen_cfg', 'Enter your U by Moen email and password in the plugin configuration.')\n            return 0\n        _notice(ctrl, 'moen_cfg')\n        shutdown(ctrl)\n\n        nodes = {}\n\n        def on_state(serial, update):\n            node = nodes.get(serial)\n            if node is not None:\n                node.apply_state(update)\n\n        client = MoenClient(email, password, on_state)\n        try:\n            client.authenticate()\n            devices = client.get_devices()\n        except MoenAuthError:\n            ctrl.moen_auth_failed = True\n            _notice(ctrl, 'moen_auth', 'U by Moen login failed. Check the email/password (an Alexa/Android account is required).')\n            client.stop()\n            return 0\n        except MoenError as err:\n            LOGGER.error('Could not reach U by Moen: %s', err)\n            _notice(ctrl, 'moen_net', 'Could not reach the U by Moen cloud. Will retry automatically.')\n            client.stop()\n            return 0\n        _notice(ctrl, 'moen_auth')\n        _notice(ctrl, 'moen_net')\n\n        for device in devices:\n            serial = device.get('serial_number') if isinstance(device, dict) else None\n            if not serial:\n                continue\n            try:\n                details = client.get_details(serial)\n            except MoenError as err:\n                LOGGER.warning('Could not read details for %s: %s', serial, err)\n                details = device\n            address = ctrl.poly.getValidAddress('shower_' + str(serial)[-7:])\n            name = ctrl.poly.getValidName(str(details.get('name') or 'Shower'))\n            node = ShowerNode(ctrl.poly, ctrl.address, address, name, serial, client)\n            ctrl.poly.addNode(node)\n            nodes[serial] = node\n            node.apply_state(rest_to_state(details))\n            try:\n                client.register_device(details)\n            except MoenError as err:\n                LOGGER.warning('Live updates unavailable for %s, using polling: %s', serial, err)\n\n        ctrl.moen = client\n        ctrl.moen_nodes = nodes\n        client.start_pusher()\n        if not nodes:\n            _notice(ctrl, 'moen_none', 'No showers were found on this U by Moen account.')\n        else:\n            _notice(ctrl, 'moen_none')\n        return len(nodes)\n\n\ndef refresh_all(ctrl, full):\n    \"\"\"REST refresh. full=False only refreshes showers whose live channel is down.\"\"\"\n    client = getattr(ctrl, 'moen', None)\n    nodes = getattr(ctrl, 'moen_nodes', None) or {}\n    if client is None:\n        return\n    for serial, node in list(nodes.items()):\n        healthy = client.is_healthy(serial)\n        if healthy and not full:\n            continue\n        try:\n            details = client.get_details(serial)\n        except MoenAuthError:\n            ctrl.moen_auth_failed = True\n            _notice(ctrl, 'moen_auth', 'U by Moen login failed. Check the email/password (an Alexa/Android account is required).')\n            return\n        except MoenError as err:\n            LOGGER.warning('Refresh failed for %s: %s', serial, err)\n            continue\n        update = rest_to_state(details)\n        if healthy:\n            update = {k: v for k, v in update.items() if k not in VOLATILE_FIELDS}\n        node.apply_state(update)\n        if healthy:\n            try:\n                client.request_report(serial)\n            except MoenError:\n                pass\n"
+  },
+  "tests": {
+    "test_moen_client.py": "import os\nimport sys\n\nimport pytest\n\nsys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))\n\nimport moen_client as mc  # noqa: E402\n\n\ndef test_power_payloads():\n    assert mc.power_payload(True) == {'type': 'control', 'data': {'action': 'shower_on', 'params': {}}}\n    assert mc.power_payload(False) == {'type': 'control', 'data': {'action': 'shower_off'}}\n\n\ndef test_temperature_payload_rounds_and_validates():\n    payload, target = mc.temperature_payload(101.6, 60, 115)\n    assert target == 102\n    assert payload == {'type': 'control', 'data': {'action': 'temperature_set', 'params': {'target_temperature': 102}}}\n    with pytest.raises(mc.MoenError):\n        mc.temperature_payload(59, 60, 115)\n    with pytest.raises(mc.MoenError):\n        mc.temperature_payload(116, 60, 115)\n    with pytest.raises(mc.MoenError):\n        mc.temperature_payload(True, 60, 115)\n    with pytest.raises(mc.MoenError):\n        mc.temperature_payload('hot', 60, 115)\n\n\ndef test_outlet_payload_changes_only_target_and_keeps_metadata():\n    outlets = [{'position': 1, 'active': False, 'type': 'head'}, {'position': 2, 'active': True, 'type': 'hand'}]\n    payload, updated = mc.outlet_payload(outlets, 1, True)\n    assert payload['data']['action'] == 'outlets_set'\n    assert updated[0] == {'position': 1, 'active': True, 'type': 'head'}\n    assert updated[1] == outlets[1]\n    assert outlets[0]['active'] is False  # input not mutated\n    assert payload['data']['params'] == {'outlets': updated}\n\n\ndef test_outlet_payload_errors():\n    with pytest.raises(mc.MoenError):\n        mc.outlet_payload([], 1, True)\n    with pytest.raises(mc.MoenError):\n        mc.outlet_payload([{'position': 1, 'active': False}], 5, True)\n    with pytest.raises(mc.MoenError):\n        mc.outlet_payload([{'position': 1, 'active': 'yes'}], 1, True)\n\n\ndef test_preset_payload_compact_and_full():\n    presets = [\n        {'position': 1, 'title': 'A', 'target_temperature': 100},\n        {'position': 2, 'title': 'B', 'target_temperature': 101},\n        {'position': 3, 'title': 'C', 'target_temperature': 102},\n    ]\n    payload, preset = mc.preset_payload(presets, 2)\n    assert payload == {'type': 'control', 'data': {'action': 'shower_on', 'params': {'preset': 2}}}\n    assert preset['title'] == 'B'\n    payload, preset = mc.preset_payload(presets, 3)\n    assert payload['data']['action'] == 'shower_set'\n    assert payload['data']['params'] == presets[2]\n    with pytest.raises(mc.MoenError):\n        mc.preset_payload(presets, 9)\n\n\ndef test_parse_state_event_json_string_and_aliases():\n    raw = '{\"type\": \"state_change\", \"data\": {\"current_mode\": \"ready\", \"target_temperature\": 100, \"ignored\": 1}, \"current_firmware_version\": \"1.2\"}'\n    event_type, update = mc.parse_state_event(raw)\n    assert event_type == 'state_change'\n    assert update == {'mode': 'ready', 'target_temperature': 100, 'current_firmware_version': '1.2'}\n    assert mc.parse_state_event('not json') == (None, {})\n    assert mc.parse_state_event(None) == (None, {})\n\n\ndef test_merge_state_keeps_outlet_metadata():\n    existing = {'mode': 'off', 'outlets': [{'position': 1, 'active': False, 'type': 'head'}]}\n    merged = mc.merge_state(existing, {'outlets': [{'position': 1, 'active': True}], 'mode': 'ready'})\n    assert merged['mode'] == 'ready'\n    assert merged['outlets'] == [{'position': 1, 'active': True, 'type': 'head'}]\n    assert existing['mode'] == 'off'\n\n\ndef test_mode_helpers():\n    assert mc.mode_to_index('off') == 0\n    assert mc.mode_to_index('paused-by-preset') == 4\n    assert mc.mode_to_index('bogus') is None\n    assert mc.is_powered_on('adjusting') and mc.is_powered_on('ready') and mc.is_powered_on('pause')\n    assert not mc.is_powered_on('off') and not mc.is_powered_on('paused-by-preset')\n\n\ndef test_rest_to_state_filters_keys():\n    state = mc.rest_to_state({'mode': 'off', 'token': 'secret', 'max_temp': 115})\n    assert state == {'mode': 'off', 'max_temp': 115}\n\n\ndef test_client_classes_and_http_error_status():\n    assert issubclass(mc.MoenAuthError, mc.MoenError)\n    assert issubclass(mc.MoenHttpError, mc.MoenError)\n    err = mc._http_error('get', '/x', 404)\n    assert isinstance(err, mc.MoenHttpError) and err.status == 404\n    client = mc.MoenClient('a@b.c', 'pw', lambda serial, update: None)\n    assert client.is_healthy('nope') is False\n    with pytest.raises(mc.MoenError):\n        client.send_control('nope', mc.power_payload(True))\n    client.stop()\n"
+  },
+  "custom_param_docs": "# U by Moen plugin configuration\n\nEnter the login you use in the **U by Moen app** (the Alexa / Android version -- HomeKit-only setups are not supported).\n\n| Field | What to enter |\n|-------|---------------|\n| **email** | The email address of your U by Moen account. |\n| **password** | The password of that account. |\n\n**Notes**\n\n* After saving, the plugin logs in to the Moen cloud and creates one node per shower on the account. If nothing appears, press **Discover Showers** on the U by Moen controller node.\n* If login fails, a notice appears on this page. Fix the email/password and save again.\n* This plugin uses Moen's unofficial cloud service (Moen publishes no official API), so it needs internet access and could stop working if Moen changes that service.\n* The password is stored in this plugin's configuration on your eisy. Consider using a password that you do not reuse elsewhere.\n",
+  "custom_typed_params": null,
+  "controller_class": "Controller",
+  "controller_module": "plugin",
+  "version": "1.0.0"
+}
