@@ -79,6 +79,58 @@ def test_merge_state_keeps_outlet_metadata():
     assert existing['mode'] == 'off'
 
 
+FULL_PRESETS = [
+    {'position': 1, 'title': 'Preset 1', 'target_temperature': 100},
+    {'position': 2, 'title': 'Preset 2', 'target_temperature': 101},
+    {'position': 3, 'title': 'Johns Shower', 'target_temperature': 104, 'extra': 'x'},
+]
+LIVE_PRESETS = [
+    {'position': 1, 'title': 'Preset 1', 'target_temperature': 100},
+    {'position': 2, 'title': 'Preset 2', 'target_temperature': 101},
+]
+
+
+def test_live_update_with_fewer_presets_does_not_drop_known_presets():
+    # Regression: a live report listing only presets 1-2 used to wipe preset 3.
+    state = mc.merge_state({}, {'presets': FULL_PRESETS}, authoritative=True)
+    state = mc.merge_state(state, {'presets': LIVE_PRESETS})
+    assert [p['position'] for p in state['presets']] == [1, 2, 3]
+    assert state['presets'][2]['title'] == 'Johns Shower'
+    assert state['presets'][2]['extra'] == 'x'
+    # preset 3 is still startable
+    payload, preset = mc.preset_payload(state['presets'], 3)
+    assert payload['data']['action'] == 'shower_set'
+    assert preset['title'] == 'Johns Shower'
+
+
+def test_live_update_refreshes_and_adds_presets():
+    state = mc.merge_state({'presets': FULL_PRESETS}, {
+        'presets': [{'position': 2, 'title': 'Renamed'}, {'position': 4, 'title': 'New'}]})
+    by_pos = {p['position']: p for p in state['presets']}
+    assert sorted(by_pos) == [1, 2, 3, 4]
+    assert by_pos[2]['title'] == 'Renamed'
+    assert by_pos[2]['target_temperature'] == 101  # untouched fields kept
+    assert by_pos[4]['title'] == 'New'
+
+
+def test_authoritative_update_replaces_presets():
+    # REST lookups may remove presets deleted in the Moen app.
+    state = mc.merge_state({'presets': FULL_PRESETS}, {'presets': LIVE_PRESETS}, authoritative=True)
+    assert [p['position'] for p in state['presets']] == [1, 2]
+
+
+def test_merge_state_does_not_mutate_input_presets():
+    existing = {'presets': [dict(p) for p in FULL_PRESETS]}
+    mc.merge_state(existing, {'presets': LIVE_PRESETS})
+    assert [p['position'] for p in existing['presets']] == [1, 2, 3]
+
+
+def test_merge_presets_ignores_malformed_entries():
+    merged = mc.merge_presets(None, [{'position': 1, 'title': 'A'}, 'junk', {'title': 'no position'}])
+    assert merged == [{'position': 1, 'title': 'A'}]
+    assert mc.merge_presets(FULL_PRESETS, None) == FULL_PRESETS
+
+
 def test_mode_helpers():
     assert mc.mode_to_index('off') == 0
     assert mc.mode_to_index('paused-by-preset') == 4

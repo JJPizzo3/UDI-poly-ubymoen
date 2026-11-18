@@ -170,8 +170,31 @@ def parse_state_event(payload):
     return (event_type if isinstance(event_type, str) else None), update
 
 
-def merge_state(existing, update):
-    """Merge a partial update, keeping per-outlet metadata."""
+def merge_presets(existing, incoming):
+    """Merge preset lists by position: incoming entries add to / refresh existing ones.
+
+    Live (Pusher) reports can list fewer presets than the REST lookup, so they
+    must never remove presets that are already known.
+    """
+    by_pos = {}
+    for item in existing or []:
+        if isinstance(item, dict) and isinstance(item.get("position"), int):
+            by_pos[item["position"]] = dict(item)
+    for item in incoming or []:
+        if isinstance(item, dict) and isinstance(item.get("position"), int):
+            combined = dict(by_pos.get(item["position"], {}))
+            combined.update(item)
+            by_pos[item["position"]] = combined
+    return [by_pos[pos] for pos in sorted(by_pos)]
+
+
+def merge_state(existing, update, authoritative=False):
+    """Merge a partial update, keeping per-outlet metadata.
+
+    ``authoritative=True`` (full REST lookups) lets the update replace the
+    preset list outright, so presets deleted in the Moen app disappear. Live
+    updates leave it False and only add to / refresh known presets.
+    """
     merged = dict(existing)
     for key, value in update.items():
         if key == "outlets" and isinstance(value, list):
@@ -188,6 +211,8 @@ def merge_state(existing, update):
                 combined.update(item)
                 result.append(combined)
             merged[key] = result
+        elif key == "presets" and isinstance(value, list) and not authoritative:
+            merged[key] = merge_presets(existing.get("presets"), value)
         else:
             merged[key] = value
     return merged

@@ -24,6 +24,7 @@ eisy / IoX plugin for the **U by Moen Smart Shower** (Alexa / Android account).
 * The unit of "Time Remaining" reported by Moen is not documented; it is shown as received and treated as seconds.
 * Preset *creation/editing* is not supported -- manage presets in the Moen app.
 * Presets 3-10 are started by sending the full preset definition (as the Android app does); presets 1 and 2 use the controller's compact form.
+* The preset list comes from Moen's REST lookup (at startup and every 5 minutes). Live updates only add to or refresh it, so a preset renamed or deleted in the Moen app can take up to 5 minutes to show up on the eisy.
 * Not affiliated with or endorsed by Moen or Fortune Brands.
 
 ## License Notice

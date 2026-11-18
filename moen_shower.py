@@ -50,11 +50,17 @@ class ShowerNode(Node):
         self._preset_sig = None
 
     # ------------------------------------------------------------ state
-    def apply_state(self, update):
+    def apply_state(self, update, authoritative=False):
+        """Merge an update into the cached state and publish it.
+
+        authoritative=True is for full REST lookups, which may replace the
+        preset list. Live (Pusher) and optimistic updates leave it False so
+        they can only add to / refresh presets, never drop them.
+        """
         if not update:
             return
         with self._state_lock:
-            self.shower_state = merge_state(self.shower_state, update)
+            self.shower_state = merge_state(self.shower_state, update, authoritative=authoritative)
             snapshot = dict(self.shower_state)
         try:
             self._publish(snapshot)
@@ -350,7 +356,7 @@ def connect(ctrl):
             node = ShowerNode(ctrl.poly, ctrl.address, address, name, serial, client)
             ctrl.poly.addNode(node)
             nodes[serial] = node
-            node.apply_state(rest_to_state(details))
+            node.apply_state(rest_to_state(details), authoritative=True)
             try:
                 client.register_device(details)
             except MoenError as err:
@@ -388,7 +394,7 @@ def refresh_all(ctrl, full):
         update = rest_to_state(details)
         if healthy:
             update = {k: v for k, v in update.items() if k not in VOLATILE_FIELDS}
-        node.apply_state(update)
+        node.apply_state(update, authoritative=True)
         if healthy:
             try:
                 client.request_report(serial)
